@@ -1,0 +1,3 @@
+
+https://github.com/astaxie/build-web-application-with-golang/blob/master/ru/03.2.md
+https://github.com/iquidus/explorer
