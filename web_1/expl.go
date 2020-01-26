@@ -95,6 +95,33 @@ func getBlockcount() {
 	fmt.Printf("http.Get (getBlockcount) body %#v\n\n\n", string(respBody))
 }
 
+/*get_maxmoney: function(cb) {
+  if (settings.use_rpc) {
+    rpcCommand([{method:'getmaxmoney', parameters: []}], function(response){
+      return cb(response);
+    });
+  } else {
+    var uri = base_url + 'getmaxmoney';
+    request({uri: uri, json: true}, function (error, response, body) {
+      return cb(body);
+    });
+  }
+},*/
+
+func getMaxmoney() {
+	url := baseUrl + "getmaxmoney"
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("error happend (getMaxmoney)", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+
+	fmt.Printf("http.Get (getMaxmoney) body %#v\n\n\n", string(respBody))
+}
+
 func runGetFullReq() {
 
 	req := &http.Request{
@@ -171,6 +198,7 @@ func main() {
 	getDifficulty()
 	getConnectioncount()
 	getBlockcount()
+	getMaxmoney()
 
 	//	runGetFullReq()
 	//	runTransportAndPost()
