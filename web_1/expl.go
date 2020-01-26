@@ -11,21 +11,88 @@ import (
 	"time"
 )
 
-func runGet() {
-	//url := "http://127.0.0.1:13370/api/getblockcount"
-	url := "http://chain.cspn.io/api/getinfo"
+//var baseUrl = "http://127.0.0.1:" + settings.port + "/api/"
+var baseUrl = "http://chain.cspn.io" + "" + "/api/"
+
+/*get_difficulty: function(cb) {
+  if (settings.use_rpc) {
+    rpcCommand([{method:'getdifficulty', parameters: []}], function(response){
+      return cb(response);
+    });
+  } else {
+    var uri = base_url + 'getdifficulty';
+    request({uri: uri, json: true}, function (error, response, body) {
+      return cb(body);
+    });
+  }
+},*/
+
+func getDifficulty() {
+	url := baseUrl + "getdifficulty"
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("error happend", err)
-		//log.Println("error happend", err)
+		fmt.Println("error happend (getDifficulty)", err)
 		return
 	}
 	defer resp.Body.Close()
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 
-	fmt.Printf("http.Get body %#v\n\n\n", string(respBody))
-	//log.Printf("http.Get body %#v\n\n\n", string(respBody))
+	fmt.Printf("http.Get (getDifficulty) body %#v\n\n\n", string(respBody))
+}
+
+/*get_connectioncount: function(cb) {
+  if (settings.use_rpc) {
+    rpcCommand([{method:'getconnectioncount', parameters: []}], function(response){
+      return cb(response);
+    });
+  } else {
+    var uri = base_url + 'getconnectioncount';
+    request({uri: uri, json: true}, function (error, response, body) {
+      return cb(body);
+    });
+  }
+},*/
+
+func getConnectioncount() {
+	url := baseUrl + "getconnectioncount"
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("error happend (getConnectioncount)", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+
+	fmt.Printf("http.Get (getConnectioncount) body %#v\n\n\n", string(respBody))
+}
+
+/*get_blockcount: function(cb) {
+  if (settings.use_rpc) {
+    rpcCommand([{method:'getblockcount', parameters: []}], function(response){
+      return cb(response);
+    })
+  } else {
+    var uri = base_url + 'getblockcount';
+    request({uri: uri, json: true}, function (error, response, body) {
+      return cb(body);
+    });
+  }
+},*/
+
+func getBlockcount() {
+	url := baseUrl + "getblockcount"
+	resp, err := http.Get(url)
+	if err != nil {
+		fmt.Println("error happend (getBlockcount)", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+
+	fmt.Printf("http.Get (getBlockcount) body %#v\n\n\n", string(respBody))
 }
 
 func runGetFullReq() {
@@ -101,8 +168,11 @@ func runTransportAndPost() {
 
 func main() {
 
-	runGet()
-	runGetFullReq()
-	runTransportAndPost()
+	getDifficulty()
+	getConnectioncount()
+	getBlockcount()
+
+	//	runGetFullReq()
+	//	runTransportAndPost()
 
 }
