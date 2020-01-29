@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net"
 	"net/http"
 	"net/url"
@@ -12,7 +13,9 @@ import (
 )
 
 //var baseUrl = "http://127.0.0.1:" + settings.port + "/api/"
-var baseUrl = "http://chain.cspn.io" + "" + "/api/"
+var baseURL = "http://localhost:13370/api/"
+
+//var baseUrl = "http://chain.cspn.io" + "" + "/api/"
 
 /*get_difficulty: function(cb) {
   if (settings.use_rpc) {
@@ -28,7 +31,7 @@ var baseUrl = "http://chain.cspn.io" + "" + "/api/"
 },*/
 
 func getDifficulty() {
-	url := baseUrl + "getdifficulty"
+	url := baseURL + "getdifficulty"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("error happend (getDifficulty)", err)
@@ -55,7 +58,7 @@ func getDifficulty() {
 },*/
 
 func getConnectioncount() {
-	url := baseUrl + "getconnectioncount"
+	url := baseURL + "getconnectioncount"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("error happend (getConnectioncount)", err)
@@ -82,7 +85,7 @@ func getConnectioncount() {
 },*/
 
 func getBlockcount() {
-	url := baseUrl + "getblockcount"
+	url := baseURL + "getblockcount"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("error happend (getBlockcount)", err)
@@ -92,7 +95,7 @@ func getBlockcount() {
 
 	respBody, err := ioutil.ReadAll(resp.Body)
 
-	fmt.Printf("http.Get (getBlockcount) body %#v\n\n\n", string(respBody))
+	log.Printf("http.Get (getBlockcount) body %#v\n\n\n", string(respBody))
 }
 
 /*get_maxmoney: function(cb) {
@@ -109,7 +112,7 @@ func getBlockcount() {
 },*/
 
 func getMaxmoney() {
-	url := baseUrl + "getmaxmoney"
+	url := baseURL + "getmaxmoney"
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("error happend (getMaxmoney)", err)
@@ -195,10 +198,10 @@ func runTransportAndPost() {
 
 func main() {
 
-	getDifficulty()
-	getConnectioncount()
+	//getDifficulty()
+	//getConnectioncount()
 	getBlockcount()
-	getMaxmoney()
+	//getMaxmoney()
 
 	//	runGetFullReq()
 	//	runTransportAndPost()
