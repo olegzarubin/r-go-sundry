@@ -21,7 +21,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	//	defer client.Shutdown()	??
+	//	defer client.Shutdown()	???
 
 	// Get the current block count.
 	blockCount, err := client.GetBlockCount()
