@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
-
+	"strconv"
 	"./rpcclient"
 )
 
@@ -20,30 +20,32 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	//	defer client.Shutdown()
 
-	log.Printf("Client: %#v", client)
-
+	// Get the miscellaneous info regarding the RPC server.
 	r, err := client.RawRequest("getinfo", nil)
 	if err != nil {
 		log.Printf("Error in RawRequest")
 		return
 	}
 
-	i := &rpcclient.Info{}
+	i := &rpcclient.InfoResult{}
 	err = json.Unmarshal(r.Result, &i)
 
-	log.Printf("Result: %#v", i)
+	log.Printf("Getinfo: %#v", i)
 
-	/*
-		//	defer client.Shutdown()
 
-		// Get the current block count.
-		blockCount, err := client.GetBlockCount()
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("Block count: %d", blockCount)
+	// Get the current block count.
+	r, err = client.RawRequest("getblockcount", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	blockCount, err := strconv.ParseUint(string(r.Result), 10, 64)
+
+	log.Printf("Block count: %d", blockCount)
+
+/*
 		// Get the current connection count.
 		connectionCount, err := client.GetConnectionCount()
 		if err != nil {
@@ -57,12 +59,5 @@ func main() {
 			log.Fatal(err)
 		}
 		log.Printf("Current difficulty: %v", currentDifficulty)
-
-		// Get the miscellaneous info regarding the RPC server.
-		infoResult, err := client.GetInfo()
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("Miscellaneous info: %#v", infoResult)
 	*/
 }
