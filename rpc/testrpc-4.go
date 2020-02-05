@@ -41,23 +41,28 @@ func main() {
 		log.Fatal(err)
 	}
 
-	blockCount, err := strconv.ParseUint(string(r.Result), 10, 64)
+	blockCount, err := strconv.ParseInt(string(r.Result), 10, 32)
 
 	log.Printf("Block count: %d", blockCount)
 
-/*
-		// Get the current connection count.
-		connectionCount, err := client.GetConnectionCount()
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("Connection count: %d", connectionCount)
+	// Get the current connection count.
+	r, err = client.RawRequest("getconnectioncount", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-		// Get the current difficulty.
-		currentDifficulty, err := client.GetDifficulty()
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("Current difficulty: %v", currentDifficulty)
-	*/
+	connectionCount, err := strconv.ParseInt(string(r.Result), 10, 32)
+
+	log.Printf("Connection count: %d", connectionCount)
+
+	// Get the current difficulty.
+	r, err = client.RawRequest("getdifficulty", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	difficulty, err := strconv.ParseFloat(string(r.Result), 64)
+
+	log.Printf("Difficulty: %v", difficulty)
+
 }
