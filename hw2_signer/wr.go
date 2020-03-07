@@ -92,16 +92,19 @@ func MultiHash(in, out chan interface{}) {
 	if !ok {
 		fmt.Errorf("cant convert result data to string")
 	}
+	fmt.Println(data, "MultiHash data", data)
+
+	result := ""
 
 	for i := 0; i <= 5; i++ {
 		res := DataSignerCrc32(strconv.Itoa(i) + data)
+		result = result + res
 		fmt.Println(data, "MultiHash: crc32(th+step1))", i, res)
 	}
 
-	//	result := resCRC32 + "~" + resCRC32MD5
-	//	fmt.Println(data, "SingleHash result", result)
+	fmt.Println(data, "MultiHash result:", result, "\n")
 
-	//	out <- result
+	out <- result
 }
 
 func main() {
@@ -110,15 +113,23 @@ func main() {
 	outCh := make(chan interface{})
 
 	go SingleHash(inCh, outCh)
-
 	inCh <- 0
-
 	result := <-outCh
-	fmt.Printf("result %#v\n", result)
 
 	go MultiHash(inCh, outCh)
-
 	inCh <- result
+	<- outCh
 
-	fmt.Scanln()
+	// 2 проход
+
+	go SingleHash(inCh, outCh)
+	inCh <- 1
+	result = <-outCh
+
+	go MultiHash(inCh, outCh)
+//	inCh = <-outCh
+	inCh <- result
+	result = <-outCh
+
+	fmt.Printf("result %#v\n", result)
 }
